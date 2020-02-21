@@ -22,13 +22,11 @@ import java.util.Date;
 public class JwtHelper {
     private static final Logger logger = LoggerFactory.getLogger(JwtHelper.class);
 
-    private static final String ISSUER = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.issuer")) ? BaseConfig.getProperty("diboot.shiro.jwt.issuer") : "diboot.com";
-    private static final String AUTH_HEADER = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.authz.header.key")) ? BaseConfig.getProperty("diboot.shiro.jwt.authz.header.key") : "authtoken";
-    private static final String TOKEN_PREFIX = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.token.prefix")) ? BaseConfig.getProperty("diboot.shiro.jwt.token.prefix") : "Bearer ";
-    public static final String SIGN_KEY = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.signkey"))? BaseConfig.getProperty("diboot.shiro.jwt.signkey") : "Dibo2016Mazc";
-
-    // 默认过期时间 2小时
-    public static final int EXPIRES_IN_MINUTES = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.token.expires.hours")) ? Integer.valueOf(BaseConfig.getProperty("diboot.shiro.jwt.token.expires.hours")) * 60 : 2 * 60;
+    private static final String ISSUER = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.issuer", new String[0])) ? BaseConfig.getProperty("diboot.shiro.jwt.issuer", new String[0]) : "diboot.com";
+    private static final String AUTH_HEADER = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.authz.header.key", new String[0])) ? BaseConfig.getProperty("diboot.shiro.jwt.authz.header.key", new String[0]) : "authtoken";
+    private static final String TOKEN_PREFIX = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.token.prefix", new String[0])) ? BaseConfig.getProperty("diboot.shiro.jwt.token.prefix", new String[0]) : "Bearer ";
+    public static final String SIGN_KEY = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.signkey", new String[0])) ? BaseConfig.getProperty("diboot.shiro.jwt.signkey", new String[0]) : "Dibo2016Mazc";
+    public static final int EXPIRES_IN_MINUTES = V.notEmpty(BaseConfig.getProperty("diboot.shiro.jwt.token.expires.hours", new String[0])) ? Integer.valueOf(BaseConfig.getProperty("diboot.shiro.jwt.token.expires.hours", new String[0])) * 60 : 120;
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
     /***

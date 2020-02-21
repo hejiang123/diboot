@@ -15,7 +15,8 @@ public enum AuthType {
 
     USERNAME_PASSWORD(1, true, "账号密码"),
     WX_MP(2, false, "公众号"),
-    WX_CP(3, false, "企业微信");
+    WX_CP(3, false, "企业微信"),
+    WX_USERNAME_NO_PASSWORD(4, false, "微信绑定，用户免密登录"),;
 
     private int code;
     private boolean requirePassword;

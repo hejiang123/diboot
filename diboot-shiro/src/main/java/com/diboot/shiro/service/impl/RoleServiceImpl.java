@@ -317,7 +317,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implement
             role.getPermissionList()
                     .stream()
                     .forEach(permission -> {
-                        if (!dbPermissionIdBuffer.toString().contains(S.join("_", role.getId(), "_"))) {
+                        if (!dbPermissionIdBuffer.toString().contains(S.join("_", permission.getId(), "_"))) {
                             RolePermission entity = new RolePermission();
                             entity.setRoleId(role.getId());
                             entity.setPermissionId(permission.getId());

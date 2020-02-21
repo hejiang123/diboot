@@ -51,7 +51,7 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<RolePermissionMap
                 else if (entity.isDeleted()){
                     Map<String, Object> criteria = new HashMap(){{
                         put("roleId", entity.getRoleId());
-                        put("permissionId", entity.getId());
+                        put("permissionId", entity.getPermissionId());
                     }};
                     deletePhysics(criteria);
                 }

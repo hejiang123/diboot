@@ -12,8 +12,8 @@
                     <if test="ew.roleId">
                         AND role_id = #{ew.roleId}
                     </if>
-                    <if test="ew.permission_id">
-                        AND user_type = #{ew.userType}
+                    <if test="ew.permissionId">
+                        AND permission_id = #{ew.permissionId}
                     </if>
                 </when>
                 <otherwise>

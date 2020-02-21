@@ -62,7 +62,7 @@ public class RoleController extends BaseCrudRestController {
     @GetMapping("/list")
     @AuthorizationWrapper(value = @RequiresPermissions("list"), name = "列表")
     public JsonResult getVOList(RoleDto roleDto, Pagination pagination, HttpServletRequest request) throws Exception{
-        QueryWrapper<RoleDto> queryWrapper = super.buildQueryWrapper(roleDto, request);
+        QueryWrapper<RoleDto> queryWrapper = super.buildQueryWrapper(roleDto);
         // 获取结果
         List<RoleVO> voList = roleService.getRoleList(queryWrapper, pagination);
         // 返回结果
@@ -92,10 +92,6 @@ public class RoleController extends BaseCrudRestController {
     @AuthorizationWrapper(value = @RequiresPermissions("update"), name = "更新")
     public JsonResult updateModel(@PathVariable("id")Long id, @RequestBody Role entity, BindingResult result,
                                   HttpServletRequest request) throws Exception{
-        // Model属性值验证结果
-        if(result.hasErrors()) {
-            return new JsonResult(Status.FAIL_INVALID_PARAM, V.getBindingError(result));
-        }
         entity.setId(id);
         roleService.updateRole(entity);
         return new JsonResult(Status.OK);

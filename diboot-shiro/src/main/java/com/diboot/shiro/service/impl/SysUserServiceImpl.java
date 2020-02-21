@@ -147,10 +147,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             put("userId", sysUser.getId());
             put("userType", iUserType.getType());
         }};
-
-        if (!userRoleService.deletePhysics(criteria)) {
-            throw new ShiroCustomException(Status.FAIL_VALIDATION, "删除用户失败！");
+        try {
+            userRoleService.deletePhysics(criteria);
+        } catch (Exception e) {
+            log.error("删除用户绑定角色失败！");
         }
+
         return true;
     }
 

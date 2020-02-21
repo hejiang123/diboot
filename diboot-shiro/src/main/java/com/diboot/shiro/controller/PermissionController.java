@@ -54,7 +54,7 @@ public class PermissionController extends BaseCrudRestController {
     @GetMapping("/list")
     @AuthorizationWrapper(value = @RequiresPermissions("list"), name = "列表")
     public JsonResult getVOList(PermissionDto permissionDto, Pagination pagination, HttpServletRequest request) throws Exception{
-        QueryWrapper<PermissionDto> queryWrapper = super.buildQueryWrapper(permissionDto, request);
+        QueryWrapper<PermissionDto> queryWrapper = super.buildQueryWrapper(permissionDto);
         // 查询当前页的Entity主表数据
         List<Permission> entityList = permissionService.getPermissionList(queryWrapper, pagination);
         return new JsonResult(Status.OK, entityList).bindPagination(pagination);
@@ -81,13 +81,13 @@ public class PermissionController extends BaseCrudRestController {
      */
     @PostMapping("/")
     @AuthorizationWrapper(value = @RequiresPermissions("create"), name = "新建")
-    public JsonResult createEntity(@ModelAttribute PermissionVO viewObject, HttpServletRequest request)
+    public JsonResult createEntity(@ModelAttribute PermissionVO viewObject, HttpServletRequest request, BindingResult result)
             throws Exception{
         // 转换
         Permission entity = BeanUtils.convert(viewObject, Permission.class);
         // 创建
         entity.setApplication(systemParamConfig.getApplication());
-        return super.createEntity(entity, request);
+        return super.createEntity(entity, result);
     }
 
     /***
@@ -99,9 +99,9 @@ public class PermissionController extends BaseCrudRestController {
     @PutMapping("/{id}")
     @AuthorizationWrapper(value = @RequiresPermissions("update"), name = "更新")
     public JsonResult updateModel(@PathVariable("id")Long id, @ModelAttribute Permission entity,
-                                  HttpServletRequest request) throws Exception{
+                                  HttpServletRequest request, BindingResult result) throws Exception{
         entity.setApplication(systemParamConfig.getApplication());
-        return super.updateEntity(id, entity, request);
+        return super.updateEntity(entity, result);
     }
 
     /***
@@ -113,7 +113,7 @@ public class PermissionController extends BaseCrudRestController {
     @DeleteMapping("/{id}")
     @AuthorizationWrapper(value = @RequiresPermissions("delete"), name = "删除")
     public JsonResult deleteModel(@PathVariable("id")Long id, HttpServletRequest request) throws Exception{
-        return super.deleteEntity(id, request);
+        return super.deleteEntity(id);
     }
 
     @Override
