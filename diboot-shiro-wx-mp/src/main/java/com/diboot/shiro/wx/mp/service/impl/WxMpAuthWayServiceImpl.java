@@ -1,6 +1,5 @@
 package com.diboot.shiro.wx.mp.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.diboot.core.util.V;
 import com.diboot.shiro.config.AuthType;
@@ -8,8 +7,6 @@ import com.diboot.shiro.entity.SysUser;
 import com.diboot.shiro.jwt.BaseJwtAuthenticationToken;
 import com.diboot.shiro.service.AuthWayService;
 import com.diboot.shiro.service.SysUserService;
-import com.diboot.shiro.wx.mp.entity.WxMpMember;
-import com.diboot.shiro.wx.mp.service.WxMpMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +20,6 @@ import java.util.List;
  */
 @Service
 public class WxMpAuthWayServiceImpl implements AuthWayService {
-
-    @Autowired
-    private WxMpMemberService wxMpMemberService;
 
     @Autowired
     private SysUserService sysUserService;
@@ -46,14 +40,16 @@ public class WxMpAuthWayServiceImpl implements AuthWayService {
 
     @Override
     public SysUser getUser() {
-        LambdaQueryWrapper<WxMpMember> query = Wrappers.<WxMpMember>lambdaQuery()
-                .eq(WxMpMember::getOpenid, token.getAccount());
-        List<WxMpMember> wxMpMemberList = wxMpMemberService.getEntityList(query);
-        if (V.isEmpty(wxMpMemberList)){
+        //查看绑定的账户
+        List<SysUser> sysUserList = sysUserService.getEntityList(
+                Wrappers.<SysUser>lambdaQuery()
+                        .eq(SysUser::getOpenid, token.getAccount())
+                        .eq(SysUser::getUserType, token.getIUserType().getType())
+        );
+        if (V.isEmpty(sysUserList)) {
             return null;
         }
-        //查看绑定的账户
-        return sysUserService.getEntity(wxMpMemberList.get(0).getSysUserId());
+        return sysUserList.get(0);
     }
 
     @Override

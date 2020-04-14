@@ -35,6 +35,9 @@ public class Role extends BaseEntity {
     @TableField
     private String userType;
 
+    @TableField
+    private Long businessId;
+
     @TableField(exist = false)
     private List<Permission> permissionList;
 

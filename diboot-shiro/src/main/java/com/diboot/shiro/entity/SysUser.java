@@ -73,6 +73,12 @@ public class SysUser extends BaseEntity {
     @TableField
     private String comment;
 
+    @TableField
+    private Long wxMpMemberId;
+
+    @TableField
+    private String openid;
+
     @TableField(exist = false)
     private List<Role> roleList;
 
